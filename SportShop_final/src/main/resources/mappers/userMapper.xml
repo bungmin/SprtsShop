@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="kr.co.mapper.UserMapper"> <!-- "kr.co.mapper.MsgMapper" 가상의 이름 MsgDAOIMPL에서 사용 -->
+
+	<select id="login" resultType="UserVO">
+  		select * from tbl_user where id=#{id} and pw=#{pw} and position=#{position}
+  	</select>
+	
+	<insert id="join">
+		insert into tbl_user(id, position, pw, name, addr1, addr2, state, email, birthday, phone, gender) 
+		values (#{id}, #{position}, #{pw}, #{name}, #{addr1}, #{addr2}, #{state}, #{email}, #{birthday}, #{phone}, #{gender})
+	</insert>
+	
+	<select id="idck" resultType="UserVO">
+		select * from tbl_user where id=#{id}
+	</select>
+	
+	<select id="mypage" resultType="UserVO">
+  		select id, position, pw, name, addr1, addr2, state, email, TO_CHAR(birthday, 'YYYY-MM-DD') as birthday , phone, gender from tbl_user where id=#{id}
+	</select>
+	
+	<delete id="delete">
+		delete from tbl_user where id = #{id}
+	</delete>
+	
+	<update id="update">
+		update tbl_user set pw=#{pw}, position=#{position}, name=#{name}, addr1=#{addr1}, addr2=#{addr2}, 
+		state=#{state}, email=#{email}, birthday=#{birthday}, phone=#{phone}, updatedate=sysdate where id=#{id}
+	</update>
+	
+	
+	<select id="idfind" resultType="UserVO">
+		select * from tbl_user where name=#{name} and email=#{email} and birthday=#{birthday}
+	</select>
+	
+	<select id="pwfind" resultType="UserVO">
+		select * from tbl_user where id=#{id} and email=#{email}
+	</select>
+	
+	<insert id="firstUserInfo">
+		insert into tbl_user_info(id) values(#{id})
+	</insert>
+	
+	<select id="userinfo" resultType="UserInfoVO">
+		select * from tbl_user_info where id = #{id}		
+	</select>	
+  	
+  <update id="cashcharge">
+  	update tbl_user_info set cash=cash+#{cash} where id = #{id}
+  </update>
+  
+  <update id="addMileage">
+  	update tbl_user_info set mileage=mileage+#{mileage} where id = #{id}
+  </update>
+  
+  <update id="minusMileage">
+  	update tbl_user_info set mileage=mileage-#{usedMileage} where id = #{id}
+  </update>
+  
+  <update id="minusCash">
+  	update tbl_user_info set cash=cash-#{cash} where id = #{id}
+  </update>
+	 
+	
+	
+	
+
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mapper.ownerMapper">
+		
+	<select id="category" resultType="OwnerVO">
+	SELECT O_category, count(*) count FROM (select * from tbl_order_info, tbl_user where tbl_user.id = tbl_order_info.id) GROUP BY o_category
+	</select>	
+		
+	<select id="year" resultType="OwnerPageVO">
+	select sum(revenue) stack_revenue, to_char(regdate, 'YYYY') regdate from ownerPage group by to_char(regdate, 'YYYY' ) order by regdate asc
+	</select>
+
+	<select id="month" resultType="OwnerPageVO">
+	select sum(revenue) stack_revenue, to_char(regdate, 'YYYY-MM') regdate from ownerPage group by to_char(regdate, 'YYYY-MM' ) order by regdate asc
+	</select>
+	
+	<select id="day" resultType="OwnerPageVO">
+	select sum(revenue) stack_revenue, to_char(regdate, 'YYYY-MM-DD') regdate from ownerPage group by to_char(regdate, 'YYYY-MM-DD' ) order by regdate asc
+	</select>
+
+	
+	
+	
+	<select id="ownerPage" resultType="OwnerPageVO">
+		select * from OwnerPage where opnum = #{opnum}
+	</select>
+
+	<select id="getId" resultType="OrderInfoVO">
+		select distinct id from tbl_order_info
+	</select>
+	
+	<select id="getGender" resultType="OwnerVO">
+	select count(*) count, 'man' as sex from (select * from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id) where gender='man'
+	union all
+	select count(*) count, 'woman' as sex from (select * from tbl_order_info, tbl_user where tbl_order_info.id = tbl_user.id) where gender='woman'	
+	</select>
+	
+	<select id="getState" resultType="OwnerVO">
+	
+	SELECT state, count(*) as count FROM (select * from tbl_order_info, tbl_user where tbl_user.id = tbl_order_info.id) GROUP BY state
+	
+	</select>
+	
+ <!--   -->
+ 
+ 
+ 
+ <select id="getAge" resultType="OwnerVO">
+  <![CDATA[
+select count(*) count , '10대이하' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 1 and (curyear-birthday) +1 < 10)
+union all
+select count(*) count, '10대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 11 and (curyear-birthday) +1 < 20)
+union all
+select count(*) count, '20대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 21 and (curyear-birthday) +1 < 30)
+union all
+select count(*) count, '30대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 31 and (curyear-birthday) +1 < 40)
+union all
+select count(*) count, '40대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 41 and (curyear-birthday) +1 < 50)
+union all
+select count(*) count, '50대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 51 and (curyear-birthday) +1 < 60)
+union all
+select count(*) count, '60대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 61 and (curyear-birthday) +1 < 70)
+union all
+select count(*) count, '70대이상' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 71) 
+  ]]>
+  
+  </select>  
+  
+  
+ 
+</mapper>

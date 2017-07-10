@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mapper.ReplyMapper">
+	
+	<select id="list" resultType="ReplyVO">
+		select * from tbl_reply where bno=#{bno} order by rno desc
+	</select> 
+ 
+  	<insert id="create">
+  		insert into tbl_reply(rno, bno, replytext, id) 
+  		values (#{rno}, #{bno}, #{replyText}, #{id})
+  	</insert>
+  	
+  	<select id="getRno" resultType="Integer">
+  		select max(rno) from tbl_reply
+  	</select>
+  	
+  	<update id="update">
+  		update tbl_reply set replytext=#{replyText}, updatedate=sysdate where rno=#{rno}
+  	</update>
+	
+	<delete id="delete">
+		delete from tbl_reply where rno=#{rno}
+	</delete>
+	
+	<select id="listPage" resultType="ReplyVO">
+	<![CDATA[
+  		select * from (select rownum rnum, rno, bno, replyText, id, regdate from (select * from tbl_reply where bno=#{bno} order by rno desc)) where rnum>=#{startrow} and rnum<=#{endrow}
+ 	]]>
+	</select>
+	
+	<select id="count" resultType="Integer">
+		select count(*) from tbl_reply where bno=#{bno}
+	</select>
+	
+	<select id="getBno" resultType="Integer">
+		select bno from tbl_reply where rno=#{rno}
+	</select>
+	
+	<delete id="deleteByBno">
+		delete from tbl_reply where bno=#{bno}
+	</delete>
+	
+</mapper>
+    

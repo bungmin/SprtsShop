@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mapper.UserManageMapper">    
+
+  <select id="usercheck" resultType="UserVO">
+  	select * from tbl_user
+  </select>
+  
+  <delete id="delete">
+  	delete from tbl_user where id = #{id}
+  </delete>
+  
+  <select id="mAnalysis" resultType="UserVO">
+  	select * from (select count(*) as mCount from tbl_user where gender ='man'), (select count(*) as wCount from tbl_user where gender ='woman')
+  </select>
+  
+  <!-- <select id="mAnalysis" resultType="UserVO">
+  	select count(*) as mCount from tbl_user where gender='man'
+  </select> -->
+  <select id="visitLog_D" resultType="VisitVO">
+  	select count(*) as count, to_char(visit_date, 'YYYY-MM-DD') as visit_date from tbl_visit where visit_date >= '2011-05-01' group by to_char(visit_date, 'YYYY-MM-DD') order by visit_date asc
+  </select>
+  
+  <insert id="visit_log">
+  	insert into tbl_visit(id ,visit_date) values (#{id} ,sysdate)
+  </insert>
+  
+  <select id="visitLog_M" resultType="VisitVO">
+  	select count(*) as count, to_char(visit_date, 'YYYY-MM') as visit_date from tbl_visit where visit_date >= '2011-05-01' group by to_char(visit_date, 'YYYY-MM') order by visit_date asc
+  </select>
+  
+  
+  <select id="analysisBoard" resultType="BoardVO">
+  	<![CDATA[ select * from (select count(*) as count, id, row_number() over(order by count(*) desc) rank from tbl_board group by id order by count desc) where rank <= 10 ]]>  
+  </select>
+  
+  <select id="analysisAge" resultType="AgeGraphVO">
+  <![CDATA[
+  select count(*) count , '10대이하' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 1 and (curyear-birthday) +1 < 10)
+union all
+select count(*) count, '10대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 11 and (curyear-birthday) +1 < 20)
+union all
+select count(*) count, '20대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 21 and (curyear-birthday) +1 < 30)
+union all
+select count(*) count, '30대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 31 and (curyear-birthday) +1 < 40)
+union all
+select count(*) count, '40대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 41 and (curyear-birthday) +1 < 50)
+union all
+select count(*) count, '50대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 51 and (curyear-birthday) +1 < 60)
+union all
+select count(*) count, '60대' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 61 and (curyear-birthday) +1 < 70)
+union all
+select count(*) count, '70대이상' as age from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 71) 
+  ]]>
+  
+  </select>  
+  
+<!--  
+회원의 나이분석 쿼리
+
+ select *
+from (select count(*) lt10 from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 1 and (curyear-birthday) +1 < 10)), (select count(*) lt20 from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 11 and (curyear-birthday) +1 < 20)), (select count(*) lt30 from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 21 and (curyear-birthday) +1 < 30)), (select count(*) lt40 from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >= 31 and (curyear-birthday) +1 < 40)), (select count(*) lt50 from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >=41 and (curyear-birthday) +1 < 50)), (select count(*) lt60 from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >=51 and (curyear-birthday) +1 < 60)), (select count(*) lt70 from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >=61 and (curyear-birthday) +1 < 70)), (select count(*) lt80 from (select (curyear-birthday) +1 as 한국나이, id from (select TO_CHAR(birthday, 'YYYY') birthday, to_char(sysdate, 'YYYY') curyear, id from tbl_user) where (curyear-birthday) +1 >=80)) -->
+
+
+<select id="analysisState" resultType="StateVO">
+	select count(*) as count, state from tbl_user group by state order by count desc
+</select>
+
+
+<select id="memberToday" resultType="UserVO">
+	select * from tbl_user where  TO_CHAR(regdate, 'YYYY-MM-DD') = TO_CHAR(sysdate, 'YYYY-MM-DD')
+</select>
+
+<delete id="deletById">
+  	delete from tbl_product_review where id=#{id}  
+  </delete>
+
+
+  
+</mapper>

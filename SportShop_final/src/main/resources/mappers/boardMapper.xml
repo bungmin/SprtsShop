@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mapper.BoardMapper">    
+  
+  <insert id="create">
+  	insert into tbl_board
+  	(bno, title, content, id, category)
+  	values 
+  	(#{bno}, #{title}, #{content}, #{id}, #{category})
+  </insert>    
+  
+  <select id="read" resultType="BoardVO">
+     select * from tbl_board where bno = #{bno}
+  </select>  
+    
+  <select id="listAll" resultType="BoardVO">
+  	select * from tbl_board order by bno desc  
+  </select>
+  
+  <delete id="delete">
+  	delete from tbl_board where bno=#{bno}
+  </delete>  
+  
+  <update id="update">
+  	update tbl_board set title=#{title}, content=#{content}, updatedate=sysdate where bno=#{bno}
+  </update>
+  
+  <select id="getBno" resultType="Integer">
+  	select max(bno) from tbl_board  
+  </select>
+  
+  <update id="addviewcnt">
+  	update tbl_board set viewcnt=viewcnt+1 where bno = #{bno}
+  </update>
+  
+  <select id="listPage" resultType="BoardVO">
+  	<![CDATA[
+  	select * from (
+	  	select rownum rnum, bno, 
+	  	title, content, id, 
+	  	regdate, updatedate, viewcnt from (
+	  		select * from tbl_board order 
+	  		by bno desc)
+	  	)
+	where rnum >=#{startrow} and rnum <=#{endrow}
+	]]>  
+  </select>
+  
+  
+  
+  <select id="soccerBoard" resultType="BoardVO">
+  	<![CDATA[
+  	select * from (
+	  	select rownum rnum, bno, 
+	  	title, content, category, id, 
+	  	regdate, updatedate, viewcnt, replycnt from (
+	  		select * from tbl_board ${orderType})
+	  	)
+	where rnum >=#{cri.startRow} and rnum <=#{cri.endRow} and category='soccer'
+	]]>  
+  </select>
+  
+  <select id="baseballBoard" resultType="BoardVO">
+  	<![CDATA[
+  	select * from (
+	  	select rownum rnum, bno, 
+	  	title, content, category, id, 
+	  	regdate, updatedate, viewcnt, replycnt from (
+	  		select * from tbl_board ${orderType})
+	  	)
+	where rnum >=#{cri.startRow} and rnum <=#{cri.endRow} and category='baseball'
+	]]>  
+  </select>
+  
+  <select id="basketballBoard" resultType="BoardVO">
+  	<![CDATA[
+  	select * from (
+	  	select rownum rnum, bno, 
+	  	title, content, category, id, 
+	  	regdate, updatedate, viewcnt, replycnt from (
+	  		select * from tbl_board ${orderType})
+	  	)
+	where rnum >=#{cri.startRow} and rnum <=#{cri.endRow} and category='basketball'
+	]]>  
+  </select>
+  
+  <select id="listCriteria" resultType="BoardVO">
+  	<![CDATA[
+  	select * from (
+	  	select rownum rnum, bno, 
+	  	title, content, category, id, 
+	  	regdate, updatedate, viewcnt, replycnt from (
+	  		select * from tbl_board ${orderType})
+	  	)
+	where rnum >=#{cri.startRow} and rnum <=#{cri.endRow} and category='notice'
+	]]>  
+  </select>
+  
+  
+  
+  	<!-- 반환형이 하나도 없을때를 대비해서 resultType을 Integer로 -->
+  <select id="totalCount" resultType="Integer">
+  		select count(bno) from tbl_board
+  </select>
+  
+  
+  <sql id="search">
+  	<if test="cri.searchType != null">
+  		<if test="cri.searchType == 'id'.toString()">
+  			where id like '%'||#{cri.keyword}||'%'  		
+  		</if>
+  		<if test="cri.searchType == 'title'.toString()">
+  			where title like '%'||#{cri.keyword}||'%'  		
+  		</if>
+  		<if test="cri.searchType  == 'content'.toString()">
+  			where content like '%'||#{cri.keyword}||'%'  		
+  		</if>
+  	</if>
+  </sql>
+  
+
+  <!-- 리스트search부터 
+  	주의사항 : 
+  -->
+  <select id="listSearch" resultType="BoardVO">  	  
+  		<![CDATA[
+  	select * from (
+	  	select rownum rnum, bno, 
+	  	title, category, content, id, 
+	  	regdate, updatedate, viewcnt, replyCnt from (
+	  		select * from tbl_board ${category} ${order})]]> <include refid="search"></include> <![CDATA[ 	  		
+	  	)
+	where rnum >=#{cri.startRow} and rnum <=#{cri.endRow}
+	]]>
+	  	
+  </select>  
+  
+  
+  
+  
+  	  
+  
+  <select id="listSearchCount" resultType="Integer">
+  	<![CDATA[select count(bno) from (select * from tbl_board  ${category})]]> <include refid="search"></include>
+  </select>  
+  
+  <update id="updateReplyCnt">
+  	update tbl_board set replyCnt = replyCnt + #{amount} where bno=#{bno}  
+  </update>
+  
+  
+	<!-- 항상 replyCnt의 값을 tbl_reply의 rno 값으로 하겠다 -->
+  <!-- <update id="getReplyCnt">
+  	update tbl_board set replyCnt = (select count(rno) from tbl_reply where bno = tbl_board.bno)  
+  </update> -->
+  
+  <insert id="addAttach">
+  	insert into tbl_attach(fullname, bno) values (#{fullName}, #{bno})
+  </insert>
+  
+  <select id="getId" resultType="Integer">
+  	select max(id) from tbl_attach 
+  </select>
+  
+  <select id="getAttach" resultType="string">
+  		select fullname from tbl_attach where bno=#{bno} <!-- order by regdate desc -->  		
+  </select>
+  
+  
+  <delete id="deleteAllAttach">
+  	delete from tbl_attach where bno=#{bno}
+  </delete>
+  
+  
+  <delete id="deleteAttach">
+  	delete from tbl_attach where bno=#{bno} and fullname=#{fullName}
+  
+  </delete>
+  
+  
+  
+  
+  
+  <sql id="order">
+  	<if test="orderType != null">
+  		<if test="orderType == 'old'.toString()">
+  			order by regdate asc  		
+  		</if>
+  		<if test="orderType == 'recently'.toString()">
+  			order by regdate desc  		
+  		</if>  		
+  	</if>
+  </sql>
+  
+  
+  <select id="listOrder" resultType="BoardVO">  	  
+  	<![CDATA[
+  	select * from (
+	  	select rownum rnum, bno, 
+	  	title, content, id, 
+	  	regdate, updatedate, viewcnt, replyCnt from (
+	  		select * from tbl_board]]> <include refid="order"></include> <![CDATA[)
+	  	)
+	where rnum >=#{startRow} and rnum <=#{endRow}
+	]]>  
+  </select>
+  
+  
+  
+  
+  <select id="myList" resultType="BoardVO">
+  	select * from tbl_board where id=#{id}  
+  </select>
+  
+  
+  <select id="notice" resultType="BoardVO">
+		<![CDATA[
+		select * from tbl_board where category = 'notice' and rownum <= 5  order by bno desc
+		]]>
+	</select>
+	
+  <select id="soccer" resultType="BoardVO">
+		<![CDATA[
+		select * from tbl_board where category = 'soccer' and rownum <= 5  order by bno desc
+		]]>
+	</select>
+  <select id="baseball" resultType="BoardVO">
+		<![CDATA[
+		select * from tbl_board where category = 'baseball' and rownum <= 5  order by bno desc
+		]]>
+	</select>
+  	<select id="basketball" resultType="BoardVO">
+		<![CDATA[
+		select * from tbl_board where category = 'basketball' and rownum <= 5  order by bno desc
+		]]>
+	</select>
+	
+  	<select id="allBoard" resultType="BoardVO">
+		<![CDATA[
+		select * from tbl_board where category != 'notice' and rownum <= 5  order by viewcnt desc
+		]]>
+	</select>
+	
+	 <delete id="deletById">
+  	delete from tbl_board where id=#{id}  
+  </delete>
+  
+  
+  
+  
+</mapper>

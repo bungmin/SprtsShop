@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.or/DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="BoardVO" type="kr.co.domain.BoardVO"/>	
+		<typeAlias alias="ReplyVO" type="kr.co.domain.ReplyVO"/>	
+		<typeAlias alias="UserVO" type="kr.co.domain.UserVO"/>	
+		<typeAlias alias="AttachVO" type="kr.co.domain.AttachVO"/>	
+		<typeAlias alias="AdsVO" type="kr.co.domain.AdsVO"/>	
+		<typeAlias alias="ProductVO" type="kr.co.domain.ProductVO"/>	
+		<typeAlias alias="CartVO" type="kr.co.domain.CartVO"/>	
+		<typeAlias alias="CartTestVO" type="kr.co.domain.CartTestVO"/>
+		<typeAlias alias="ReviewVO" type="kr.co.domain.ReviewVO"/>
+		<typeAlias alias="MsgVO" type="kr.co.domain.MsgVO"/>
+		<typeAlias alias="UserInfoVO" type="kr.co.domain.UserInfoVO"/>
+		<typeAlias alias="VisitVO" type="kr.co.domain.VisitVO"/>
+		<typeAlias alias="AgeGraphVO" type="kr.co.domain.AgeGraphVO"/>
+		<typeAlias alias="StateVO" type="kr.co.domain.StateVO"/>
+		<typeAlias alias="OrderInfoVO" type="kr.co.domain.OrderInfoVO"/>
+		<typeAlias alias="OwnerVO" type="kr.co.domain.OwnerVO"/>
+		<typeAlias alias="OwnerPageVO" type="kr.co.domain.OwnerPageVO"/>
+		
+	
+	</typeAliases> 
+</configuration>

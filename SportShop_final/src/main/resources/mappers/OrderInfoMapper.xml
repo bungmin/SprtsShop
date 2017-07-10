@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mapper.OrderInfoMapper">
+	
+	<insert id="insertOrderInfo"> <!-- 주문결제 후 구매내역 삽입 -->
+		insert into tbl_order_info (ono, pno, id, o_category, o_title, o_name, o_brand_name, o_size, o_img_1, o_amount, o_price, o_mileage_gain, o_final_price)
+	 	 values(#{ono}, #{pno}, #{id}, #{o_category},#{o_title}, #{o_name}, #{o_brand_name}, #{o_size},#{o_img_1}, #{o_amount}, #{o_price}, #{o_mileage_gain}, #{o_final_price})
+	</insert>
+	
+	<select id="getOno" resultType="Integer">
+		select max(ono) from tbl_order_info
+	</select>
+
+	<select id="insertOrderInfo2">
+		update tbl_order_info set u_name = #{u_name}, u_addr1= #{u_addr1}, u_addr2 = #{u_addr2}, u_phone = #{u_phone}, count = #{count} where ono = #{ono}
+	</select>
+	
+	
+	<select id="myOrder" resultType="OrderInfoVO">
+		select * from tbl_order_info where id=#{id}	
+	</select>
+	
+	<select id="orderAdmin" resultType="OrderInfoVO">
+		select * from tbl_order_info	
+	</select>
+	
+	<select id="dateOrder" resultType="OrderInfoVO">
+		select * from tbl_order_info where id=#{id} and o_date between to_date(#{date1}, 'YYYY-MM-DD') and to_date(#{date2}, 'YYYY-MM-DD') + 1
+	</select>
+	
+	<delete id="deletById">
+  	delete from tbl_order_info where id=#{id}  
+  </delete>
+	
+	
+	
+	
+	<!-- 
+	<select id="listAllCart" resultType="CartVO">
+		select * from tbl_cart where id = #{id}
+	</select>
+	
+	<delete id="delete">
+		delete from tbl_cart where cno = #{cno}
+	</delete>
+	
+	<select id="CartView" resultType="CartTestVO">
+		select * 
+		from tbl_cart tc, tbl_product_info tpi 
+		where tc.id=#{id} and tc.pno = tpi.pno
+	</select>
+   -->
+    
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+		<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- id = 빈의 변수명이 dataSource -->
+	<!-- class = 풀패키지명 -->
+	<!-- bean 쓴담에 property 추가 name 속성명 driver가 있으면, url, username, password가 있음-->
+	<!-- 다하고 나면 src/test/java에서 test를 할꺼임. 클래스를 하나 만들꺼임. DataSourceTest.java-->
+	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">		
+		<!-- <property value="oracle.jdbc.driver.OracleDriver" name="driverClassName"></property> -->
+		<property value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" name="driverClassName"></property>
+		<!-- <property value="jdbc:oracle:thin:@localhost:1521:xe" name="url"></property> -->
+		<property value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe" name="url"></property>
+		<property value="green" name="username"></property>
+		<property value="green" name="password"></property>
+	</bean>
+	
+	
+	<!-- 이제 mybatis 작업  이름에 factory 들어간거는 sqlSession을 만들어내는 공장 같은 느낌임..
+		 이전은 패키지명. 클래스명 :SqlSessionFactoryBean
+		 <property ref="dataSource" name="dataSource"></property>
+		 value는 문자열에 대한 값만 넣을 때 쓰고
+		 일반적인 객체를 넣을때는 ref="id 넣으면 됨."를 씀.		 
+		 지금은 위에 객체를 factory에 넣을 것임.	
+		 
+		 이거한담에 src/main/resources에 mybatis 환경설정을 할꺼임.mybatis-config.xml
+		 
+		 mybatis에 환경설정에 위치를 나타내는거
+		 <property value="classpath:/mybatis-config.xml" name="configLocation"></property>
+	-->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+		<property ref="dataSource" name="dataSource"></property>
+		<property value="classpath:/mybatis-config.xml" name="configLocation"></property>
+		<property value="classpath:mappers/**/*Mapper.xml" name="mapperLocations"></property>	
+	</bean>
+	
+	<!-- destroy-method :   clearCache 종료될때 무엇을 할지(어떤 메서드 실행)  지금은 클리어 되는거
+	위에서 만든 객체를 넣어줄거라서ref.. 
+	-->
+	<bean destroy-method="clearCache" class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+		<constructor-arg ref="sqlSessionFactory" name="sqlSessionFactory"></constructor-arg>	
+	</bean>
+	
+	<!-- 
+	mapper 등록시켜주는거.
+	<property value="classpath:**/*Mapper.xml" name="mapperLocations"></property>
+	* 의미 :  ~~~~Mapper.xml
+	
+	bean을 추가할꺼임..
+	property는 set 같은 의미라고 생각-->
+	
+	
+	
+	
+	
+	<!-- org.springframework.jdbc.datasource.DataSourceTransactionManger를 이용해서 객체를 만들겠다 -->
+	<!-- 객체를 만들고 property 설정 
+	객체를 넣을때는 ref, 문자열 넣을때는 value
+	-->
+	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+		<property ref="dataSource" name="dataSource"></property>	
+	</bean>
+	
+	
+	<!-- tx의 대상을 anootaion으로 관리하겠다 -->	
+	<tx:annotation-driven/>
+	
+	
+	
+	<!-- 프록시 객체를 자동으로 만들어줌  a-->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
+	
+	<context:component-scan base-package="kr.co.persistence"/>
+	<context:component-scan base-package="kr.co.service"/>
+		
+</beans>

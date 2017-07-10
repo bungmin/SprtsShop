@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mapper.ProductMapper">
+	
+		<select id="getOpnum" resultType="Integer">
+		select max(opnum) from ownerPage	
+	</select>	
+	
+	<insert id="insertOwnerPage">
+			insert into ownerPage (opnum, revenue, discount, usedmileage, unusedmileage) values 
+			(#{opnum}, #{revenue}, #{discount}, #{usedmileage}, #{unusedmileage})
+	</insert>
+	
+	<select id="getBeforeInfo" resultType="OwnerPageVO">
+	select * from ownerPage where opnum = #{opnum}
+	
+	</select>
+	
+	<update id="insertOwnerPage2">
+			update ownerPage set stack_revenue = #{stack_revenue} + #{revenue}, stack_usedmileage = #{stack_usedmileage} + #{usedmileage}, stack_unusedmileage =#{stack_unusedmileage} + #{unusedmileage},  stack_discount = #{stack_discount} + #{discount} where opnum = #{opnum}
+	</update>	
+	
+	
+	<insert id="insertProduct">
+		insert into tbl_product_info(pno, id, p_category, p_title, p_name, p_brand_name,p_size, p_ori_price, p_price, p_discount_rate, p_ori_amount, p_amount, p_made, p_content, p_goodcnt, p_viewcnt, p_img_1, p_img_2) 
+		values (#{pno}, #{id}, #{p_category}, #{p_title}, #{p_name},#{p_brand_name},#{p_size}, #{p_ori_price}, #{p_price}, #{p_discount_rate}, #{p_ori_amount}, #{p_amount}, #{p_made}, #{p_content}, 0, 0, #{p_img_1}, #{p_img_2})	
+	</insert>
+		
+	<select id="getPno" resultType="Integer">
+		select max(pno) from tbl_product_info	
+	</select>	
+	
+	<select id="listAllProduct" resultType="ProductVO">
+		select * from TBL_PRODUCT_INFO	
+	</select>		
+	
+	<update id="updateProduct">
+		update tbl_product_info set p_category = #{p_category}, p_title = #{p_title},p_name = #{p_name}, p_brand_name = #{p_brand_name}, p_size = #{p_size}, p_ori_price = #{p_ori_price}, p_price= #{p_price}, p_discount_rate = #{p_discount_rate},   
+		p_ori_amount = #{p_ori_amount}, p_amount = #{p_amount},  p_made = #{p_made}, p_content = #{p_content},p_img_1=#{p_img_1}, p_img_2=#{p_img_2} where pno = #{pno}                       
+	</update>
+  
+    <select id="readProduct" resultType="ProductVO">
+    	select * from tbl_product_info where pno = #{pno}
+    
+    </select>
+    
+    <delete id="deleteProduct">
+    	delete from tbl_product_info where pno = #{pno}
+    </delete>
+    
+    
+     <select id="listCriteriaAdmin" resultType="ProductVO">
+  	<![CDATA[
+  select * from (
+	  	select rownum rnum, pno, 
+	  	id, p_category, p_title, 
+	  	p_name, p_brand_name, p_size, p_ori_price, p_price, p_discount_rate, p_img_1, p_img_2, p_ori_amount, p_amount, p_made, p_content, p_goodcnt, p_viewcnt, regdate, updatedate from (
+	  		select * from tbl_product_info order by pno desc) 
+	  	)
+	where rnum >=#{startRow} and rnum <=#{endRow}
+	]]>  
+  </select>
+  
+  
+  
+	
+	
+	 <select id="listCriteria" resultType="ProductVO">
+  	<![CDATA[
+  	select * from (
+	  	select rownum rnum, pno, 
+	  	id, p_category, p_title, 
+	  	p_name, p_brand_name, p_size, p_ori_price, p_price, p_discount_rate, p_img_1, p_img_2, p_ori_amount, p_amount, p_made, p_content, p_goodcnt, p_viewcnt, regdate, updatedate from (
+	  		select * from tbl_product_info order by pno desc) 
+	  	)
+	where rnum >=#{startRow} and rnum <=#{endRow}
+	]]>  
+  </select>
+  
+   <select id="totalCount" resultType="Integer">
+  		select count(pno) from tbl_product_info
+  </select>
+  
+  
+   <sql id="search">
+  	<if test="cri.searchType != null">
+  		<if test="cri.searchType == 'p_title'.toString()">
+  			where p_title like '%'||#{cri.keyword}||'%'  		
+  		</if>
+  		<if test="cri.searchType == 'p_content'.toString()">
+  			where p_content like '%'||#{cri.keyword}||'%'  		
+  		</if>  		
+  	</if>
+  </sql>
+  
+  
+  <!-- 리스트search부터 
+  	주의사항 : 
+  -->
+  <select id="listSearch" resultType="ProductVO">  	  
+  	<![CDATA[
+  	select * from (
+	  	select rownum rnum, pno, 
+	  	id, p_category, p_title, 
+	  	p_name, p_brand_name, p_size, p_ori_price, p_price, p_discount_rate, p_img_1, p_img_2, p_ori_amount, p_amount, p_made, p_content, p_goodcnt, p_viewcnt, regdate, updatedate from (
+	  		select * from tbl_product_info ${category} ${order})]]> <include refid="search"></include><![CDATA[
+	  	)
+	where rnum >=#{cri.startRow} and rnum <=#{cri.endRow}  	
+	]]>  
+  </select>
+  
+  <select id="listSearchCount" resultType="Integer">
+  	<![CDATA[select count(pno) from (select * from tbl_product_info ${category})]]> <include refid="search"></include>	
+  </select>
+  
+  
+  <select id="SoccerProList" resultType="ProductVO">
+		<![CDATA[select * from TBL_PRODUCT_INFO where p_category = 'soccer' and rownum <= 100  order by pno desc]]>	
+	</select>		
+  <select id="baseBallList" resultType="ProductVO">
+		<![CDATA[select * from TBL_PRODUCT_INFO where p_category = 'baseball' and rownum <= 100  order by pno desc]]>	
+	</select>		
+  <select id="baseketBallList" resultType="ProductVO">
+		<![CDATA[select * from TBL_PRODUCT_INFO where p_category = 'basketball' and rownum <= 100  order by pno desc]]>	
+	</select>		
+	
+	
+	<update id="addviewcnt">
+  	update TBL_PRODUCT_INFO set p_viewcnt=p_viewcnt+1 where pno = #{pno}
+  </update>
+  
+  
+	<update id="addgoodcnt">
+  	update TBL_PRODUCT_INFO set p_goodcnt=p_goodcnt+1 where pno = #{pno}
+  </update>
+  
+  
+  
+  <update id="amountBalance">
+  	update TBL_PRODUCT_INFO set p_amount=p_amount-#{p_amount} where pno = #{pno}
+  </update>
+  
+  
+  	<delete id="deletById">
+  	delete from TBL_PRODUCT_INFO where id=#{id}  
+  </delete>
+	
+  
+	 
+  
+	
+  
+    
+</mapper>

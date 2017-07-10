@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mapper.MsgMapper">    
+  
+  <insert id="create">
+  	insert into tbl_msg
+  	(mno, id, m_category, title, content, replycheck)
+  	values 
+  	(#{mno},#{id},#{m_category}, #{title}, #{content} , #{replycheck})
+  </insert>    
+  
+  <select id="getMno" resultType="Integer">
+  	select max(mno) from tbl_msg  
+  </select>
+  
+   <select id="listAll" resultType="MsgVO">
+  	select * from tbl_msg  where id = #{id} order by mno desc
+  </select>
+  
+  
+   <select id="listAllAdmin" resultType="MsgVO">
+  	select * from tbl_msg order by mno desc
+  </select>
+  
+  <update id="replyUpdate">
+  	update tbl_msg set replycheck='true' where mno=#{mno}
+  </update>
+  
+  
+    <select id="listCriteria" resultType="MsgVO">
+  	<![CDATA[
+  	select * from (
+	  	select rownum rnum, mno, 
+	  	id, m_category, title, 
+	  	content, replycheck, regdate from (
+	  		select * from tbl_msg order by mno desc)
+	  	)
+	where rnum >=#{startRow} and rnum <=#{endRow}
+	]]>  
+  </select>
+  
+  
+  
+  	<!-- 반환형이 하나도 없을때를 대비해서 resultType을 Integer로 -->
+  <select id="totalCount" resultType="Integer">
+  		select count(mno) from tbl_msg
+  </select>
+  
+  
+    <select id="listCriteriaUser" resultType="MsgVO">
+  	<![CDATA[
+  	select * from (
+	  	select rownum rnum, mno, 
+	  	id, m_category, title, 
+	  	content, replycheck, regdate from (
+	  		select * from tbl_msg where id= #{id} order by mno desc)
+	  	)
+	where rnum >=#{cri.startRow} and rnum <=#{cri.endRow}
+	]]>  
+  </select>
+  
+  
+  
+  	<!-- 반환형이 하나도 없을때를 대비해서 resultType을 Integer로 -->
+  <select id="totalCountUser" resultType="Integer">
+  		select count(mno) from tbl_msg where id = #{id}
+  </select>
+  
+  	 <delete id="deletById">
+  	delete from tbl_msg where id=#{id}  
+  </delete>
+  
+  
+  
+  
+  
+</mapper>
