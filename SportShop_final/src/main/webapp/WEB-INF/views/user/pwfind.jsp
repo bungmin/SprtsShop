@@ -68,7 +68,7 @@ $(document).ready(function() {
 </head>
 <body>
 	
-	<jsp:include page="/WEB-INF/views/page_header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/admin_page_header.jsp"></jsp:include>
 	<div class="container">
 		<div class="row">
 			<br>

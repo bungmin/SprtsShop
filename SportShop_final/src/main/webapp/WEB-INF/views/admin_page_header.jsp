@@ -232,9 +232,11 @@
 				<c:otherwise>
 				<li><span
 					style="color: gray; list-style: none; display: inline; position: relative; top: 15px;"
-					class="glyphicon glyphicon-user"><c:if test="${login.position == 'admin' }">관리자</c:if>
-					<c:if test="${login.position == 'ceo' }">경영자</c:if>
-					 ${login.id}님 환영합니다.</span></li>
+					class="glyphicon glyphicon-user">
+					<c:if test="${login.position == 'user' }">${login.id}님 환영합니다.</span></li></c:if>
+					<c:if test="${login.position == 'admin' }">관리자 ${login.id}님 환영합니다.</span></li></c:if>
+					<c:if test="${login.position == 'ceo' }">경영자 ${login.id}님 환영합니다.</span></li></c:if>
+					 
 				<li><a href="/user/logout"><span
 						class="glyphicon glyphicon-user"></span> 로그아웃</a></li>
 				
