@@ -27,59 +27,66 @@
 }													
 </style>
 <script type="text/javascript">
-var cate0 = ${ovo[0].count}
-var cate0a = '${ovo[0].o_category}'
-var cate1 = ${ovo[1].count}
-var cate1a = '${ovo[1].o_category}'
-var cate2 = ${ovo[2].count}
-var cate2a = '${ovo[2].o_category}'
+
+$(document).ready(function(){
+	var cate0 = ${ovo[0].count};
+	var cate0a = '${ovo[0].o_category}';
+	var cate1 = ${ovo[1].count};
+	var cate1a = '${ovo[1].o_category}';
+	var cate2 = ${ovo[2].count};
+	var cate2a = '${ovo[2].o_category}';
+	
+	var chart = AmCharts.makeChart("chartdiv", {
+	    "theme": "light",
+	    "type": "serial",
+	    "startDuration": 2,
+	    "dataProvider": [{
+	        "country": cate0a,
+	        "visits": cate0,
+	        "color": "#FF0F00"
+	    }, {
+	        "country": cate1a,
+	        "visits": cate1,
+	        "color": "#FF6600"
+	    }, {
+	        "country": cate2a,
+	        "visits": cate2,
+	        "color": "#FF9E01"
+	    }],
+	    "graphs": [{
+	        "balloonText": "[[category]]: <b>[[value]]</b>",
+	        "colorField": "color",
+	        "fillAlphas": 0.85,
+	        "lineAlpha": 5,
+	        "type": "column",
+	        "topRadius":1,
+	        "valueField": "visits"
+	    }],
+	    "depth3D": 40,
+		"angle": 30,
+	    "chartCursor": {
+	        "categoryBalloonEnabled": false,
+	        "cursorAlpha": 0,
+	        "zoomable": false
+	    },
+	    "categoryField": "country",
+	    "categoryAxis": {
+	        "gridPosition": "start",
+	        "axisAlpha":0,
+	        "gridAlpha":0
+
+	    },
+	    "export": {
+	    	"enabled": true
+	     }
+
+	}, 0);
+
+	
+});
 
 
-var chart = AmCharts.makeChart("chartdiv", {
-    "theme": "light",
-    "type": "serial",
-    "startDuration": 2,
-    "dataProvider": [{
-        "country": cate0a,
-        "visits": cate0,
-        "color": "#FF0F00"
-    }, {
-        "country": cate1a,
-        "visits": cate1,
-        "color": "#FF6600"
-    }, {
-        "country": cate2a,
-        "visits": cate2,
-        "color": "#FF9E01"
-    }],
-    "graphs": [{
-        "balloonText": "[[category]]: <b>[[value]]</b>",
-        "colorField": "color",
-        "fillAlphas": 0.85,
-        "lineAlpha": 5,
-        "type": "column",
-        "topRadius":1,
-        "valueField": "visits"
-    }],
-    "depth3D": 40,
-	"angle": 30,
-    "chartCursor": {
-        "categoryBalloonEnabled": false,
-        "cursorAlpha": 0,
-        "zoomable": false
-    },
-    "categoryField": "country",
-    "categoryAxis": {
-        "gridPosition": "start",
-        "axisAlpha":0,
-        "gridAlpha":0
 
-    },
-    "export": {
-    	"enabled": true
-     }
-
-}, 0);
 
 
 

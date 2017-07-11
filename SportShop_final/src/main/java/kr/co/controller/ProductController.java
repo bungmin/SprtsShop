@@ -281,6 +281,13 @@ public class ProductController {
 				order_info_service.insertOrderInfo(oVO);
 				System.out.println(vo + "0000000000000000000000000000");
 				
+				ProductVO vo2 = new ProductVO();
+				
+				
+				vo2.setP_amount(vo.getO_amount());
+				vo2.setPno(vo.getPno());
+				service.amountBalance(vo2);
+				
 				//-------------------------------------
 				
 		
@@ -330,6 +337,13 @@ public class ProductController {
 				
 								
 				order_info_service.insertOrderInfo(oVO);
+				
+				
+				ProductVO vo2 = new ProductVO();				
+				
+				vo2.setP_amount(list.get(i).getO_amount());
+				vo2.setPno(list.get(i).getPno());
+				service.amountBalance(vo2);
 				
 				//Thread.sleep(50);
 				}
@@ -479,6 +493,7 @@ public class ProductController {
 				
 				System.out.println(vo);
 				System.out.println("+++++++++++++");
+				
 				user_service.addMileage(vo);
 				user_service.minusCash(vo);				
 				user_service.minusMileage(vo);

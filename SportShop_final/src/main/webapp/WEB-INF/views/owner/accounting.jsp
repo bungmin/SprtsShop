@@ -31,12 +31,10 @@ body { background-color: #000; color: #fff; }
   <div class="panel-body">
 
 <ol class="breadcrumb">
-  <li><a href="/owner/accounting">매출 전표</a>
+  <li><a href="/owner/accounting">매출 전표</a></li>
   <li><a href="/owner/day">일</a></li>
   <li><a href="/owner/month">월</a></li>
   <li><a href="/owner/year">연</a></li>
-  </li>
-<li><a href="/owner/accounting">매출 전표</a></li>
   <li><a href="/owner/gender">Gender</a></li>
   <!-- <li><a href="/owner/age">AGE</a></li> -->
   <li><a href="/owner/state">State</a></li>

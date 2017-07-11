@@ -87,9 +87,23 @@
 		getAllList(id);
 		
 		$("#goPurchase").click(function(){			
+			var data_cno = $(".cartlist").find("button").attr("data-cno");
 			
 			
-			location.href="/product/purchaseProductPage?id="+id+"&pno=0&count=0";
+			
+			if(data_cno == null){
+				alert("결제할 상품이 없습니다.");
+				
+			}else{
+				location.href="/product/purchaseProductPage?id="+id+"&pno=0&count=0";				
+			}
+			
+			
+		});
+		
+		$("#goList").click(function (){
+			location.href ="/userProductList/listSearchCriteria?category=all";
+			
 		});
 		
 		

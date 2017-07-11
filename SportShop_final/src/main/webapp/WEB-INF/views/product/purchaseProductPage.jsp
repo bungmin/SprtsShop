@@ -370,6 +370,8 @@
 				var totalMileage = '${PurPage_vo.totalMileage}';
 				var discountedPrice =$("#discountedPrice").text();
 				var totalPrice = discountedPrice; 
+				$("#totalPrice").attr("totalPrice", totalPrice);
+				$("#totalPrice").html(totalPrice+"원");
 				$("#totalDiscount").html(totalDiscount+"원");	
 				$("#totalMileage").html(totalMileage+" points");
 			}	
@@ -379,6 +381,8 @@
 				var totalMileage = '${p_vo.mileage}';
 				var discountedPrice =$("#discountedPrice").text();	
 				var totalPrice = discountedPrice; // 마일리지 적용전 최종가격
+				$("#totalPrice").attr("totalPrice", totalPrice);
+				$("#totalPrice").html(totalPrice+"원");
 				$("#totalDiscount").html(totalDiscount+"원");
 				$("#totalMileage").html(totalMileage+" points");
 				
@@ -493,28 +497,22 @@
 		 		  
 		 		    var myMoney = ${user_info_vo.cash};
 		 		   var totalPriceTest = $("#totalPrice").attr("totalPrice");
+		 		  var totalPrice =$("#totalPrice").attr("totalPrice");
 		 		   
 		 		   if(myMoney >= totalPriceTest){ 
 		 			   //결제 진행되야됨.
 		 			   var isOK = confirm("결제를 진행하시겠습니다까?");
 				 					    																
-					if (isOK && totalPrice != "") {
-						
-							
-						if (p_vo == '') {
-							
+					if (isOK && totalPrice != "") {		//값이 들어있을경우에만 실행된다고					
+						if (p_vo == '') {			//장부구니에서 결제일 경우							
 							var id = '${login.id}';
 							var data = ${pageScope.json_strVO};
 							
-							var onoMax = "";
-							
+							var onoMax = "";							
 							var addr1 = $("#addr1").val();
 							var addr2 = $("#addr2").val();
 							var name = $("#name").val();
-							var phone = $("#phone").val();
-					 	
-						
-							
+							var phone = $("#phone").val();					 	
 							$.ajax({
 								type: "post",
 								url: "/product/cartOrderInfoHistory",
@@ -525,10 +523,7 @@
 								dataType: "text",
 								data: JSON.stringify(data),
 								contentType:"application/json", //이것을 해주어야 json 형태로 넘어갈 수 있음!!!!!
-								success : function(result) {
-									/* alert(result); */
-									 
-									
+								success : function(result) {								
 								 	$.ajax({
 										type: "PUT",
 										url: "/product/OrderListValues/",
@@ -547,12 +542,10 @@
 											u_phone : phone,
 											count : ProductNum,
 											totalPrice : totalPrice,
-											useMileage : useMileage
-											
+											useMileage : useMileage											
 										}),							
 										success : function(result) {	
-											alert(result);		
-											
+											alert(result);													
 											$.ajax({
 												type: "PUT",
 												url: "/product/userInfoValue/",
@@ -565,33 +558,18 @@
 													id : '${login.id}',
 													cash : totalPrice,
 													mileage : totalMileage,
-													usedMileage : useMileage
-													
+													usedMileage : useMileage													
 												}),							
-												success : function(result) {
-													
+												success : function(result) {													
 													alert(result);
 													location.href = "/order/myOrder?id="+'${login.id}';
 												}
-											});	  
-										}
-									});	  
-									
-									
-									
-								}
-							});
-						
-							
-					 	
-						//window.open("https://www.inicis.com/Support_new/stdpay/INIStdPaySample/INIStdPayRequest.php", "결제진행", "height=1000, width=600, top=200, left=200");
-					
-						}	 
-						
-						
-						
-						
-						
+												});
+											}
+										});	
+								 	}
+								});						
+							}	 
 						
 						if (p_vo != '' && totalPrice != "") { //즉시 구매일 경우
 							
@@ -681,18 +659,18 @@
 									}
 								});
 							}
-						});	
-						
+						});					
 							
 						}
 					} else {
-						alert ("0원은 결제 하실 수 없습니다.")
+						alert ("0원은 결제 하실 수 없습니다.");
 					}
 		 			   
+				
 		 			   
 		 		   }else{
-		 			   alert("잔액이 부족합니다.");		 			   
-		 		   }
+						alert("잔액이 부족합니다.");
+					}
 		 		   
 		 		    
 				

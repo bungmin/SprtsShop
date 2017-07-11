@@ -357,11 +357,15 @@
 				alert("로그인을 하셔야합니다.");
 				location.href= "/user/login";				
 			}else{
+				
+				
 				if(count > amount){
 					alert("구입 수량을 다시 입력해주세요. 등록한 상품수보다 많습니다.");
 				} else if (count < 0){
 					alert("0보다 큰 값을 입력하세요");
-				} else {
+				}else if(count == ""){
+					alert("구매량을 입력해야합니다.");
+				}else {
 					//location.href="/product/purchaseProductPage?pno=${vo.pno}&count="+count;
 					$.ajax({
 						type : "PUT",
