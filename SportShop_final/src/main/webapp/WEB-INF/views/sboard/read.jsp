@@ -57,7 +57,14 @@
 
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/admin_page_header.jsp"></jsp:include>
+
+	<c:if test="${login.position == 'admin' || login.position == 'ceo'}">
+		<jsp:include page="/WEB-INF/views/admin_page_header.jsp"></jsp:include>
+	</c:if>
+	<c:if test="${login.position == 'user'}">
+		<jsp:include page="/WEB-INF/views/page_header.jsp"></jsp:include>
+	</c:if>
+	
 	<form role="form" method="post">
 		<input value="${vo.bno}" name="bno" type="hidden">
 		<input value="${cri.page}" name="page" type="hidden"> 

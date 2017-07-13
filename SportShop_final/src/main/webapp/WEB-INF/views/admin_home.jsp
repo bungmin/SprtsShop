@@ -132,7 +132,7 @@ footer {
 		<c:choose>
   		<c:when test="${login ne null}">
   	
-			<div class="col-sm-3 ">
+			<div class="col-sm-3" >
 				
 				<%--  --%>
 				<div class="well">					
@@ -170,12 +170,47 @@ footer {
 
 			<div class="col-sm-7">
 			
-				<div style="position: relative; left: 100px;" class="row">
-
+				<div class="row">
+				
+		<!-- 		<div data-interval="1000" data-ride="carousel" class="carousel" id="myCarousel">
+			data-interval="1000": 1초
+				<ol class="carousel-indicators"> 
+					<li class="active" data-slide-to="0" data-target="#myCarousel"></li>
+					<li class="active" data-slide-to="1" data-target="#myCarousel"></li>
+					<li class="active" data-slide-to="2" data-target="#myCarousel"></li>
+				</ol>
+				
+				<div class="carousel-inner">
+					<div class="item active" align="center">
+							<img class="mySlides img-responsive" style="width: 100%;" src="/resources/img/soccer.jpg">
+						<div class="carousel-caption">
+							<h3>아이린</h3>
+							<p>첫번째 사진</p>
+						</div>
+					</div>
+					<div class="item"  align="center">
+						<img class="mySlides img-responsive" style="width:100%;" src="/resources/img/baseball.jpg">
+						<div class="carousel-caption">
+							<h3>문채원</h3>
+							<p>두번째 사진</p>
+						</div>
+					</div>
+					<div class="item"  align="center">
+						<img class="mySlides img-responsive" style="width:100%;" src="/resources/img/basketball.jpg">
+						<div class="carousel-caption">
+							<h3>성규</h3>
+							<p>세번째 사진</p>
+						</div>
+					</div>
+				</div>			
+				
+				
+				
+			</div> -->
 					<div>
-						<img class="mySlides" src="/resources/img/soccer.jpg">
-						<img class="mySlides" src="/resources/img/baseball.jpg"> 
-						<img class="mySlides" src="/resources/img/basketball.jpg">
+						<img class="mySlides img-responsive" style="width: 100%;" src="/resources/img/baseball.jpg">
+						<img class="mySlides img-responsive" style="width:100%;" src="/resources/img/soccer.jpg"> 
+						<img class="mySlides img-responsive" style="width:100%;" src="/resources/img/basketball.jpg">
 						
 					</div>
 
@@ -244,9 +279,7 @@ footer {
 				</div>
 			</div>
 			<div class="col-sm-2">
-				<div class="well">
-					<p id="serverTime"></p>
-				</div>
+				
 				 <div class="adslist">
       			</div>
 
@@ -257,7 +290,7 @@ footer {
 	
 	<script id="source" type="text/x-handlebars-template">			
 			{{#each.}}				
-					<li><img src="/displayFile?fileName={{p_img_1}}" class="img-responsive" style="width: 100%">
+					<li><a href="userProductList/productDetail?pno={{pno}}"><img src="/displayFile?fileName={{p_img_1}}" class="img-responsive" style="width: 100%"></a>
 						<p style="color: red;">{{p_title}}</p>
 						<p >{{p_price}} 원</p>
 						
@@ -449,7 +482,7 @@ footer {
 			
 			
 			
-			carousel();
+		 	carousel();
 
 			function carousel() {
 				var i;
@@ -464,7 +497,7 @@ footer {
 				x[slideIndex - 1].style.display = "block";
 				setTimeout(carousel, 2000); // Change image every 2 seconds
 			}
-			
+			 
 			
 			
 			$("#logout").click(function() {
@@ -624,6 +657,7 @@ footer {
 		function removeHTML(text){
 			text = text.replace(/<br\/>/ig, "\n"); 
 			text = text.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+			text = text.replace(/&nbsp;/gi,'');
 
 			return text;
 			

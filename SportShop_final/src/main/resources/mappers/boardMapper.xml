@@ -217,7 +217,8 @@
   
   <select id="notice" resultType="BoardVO">
 		<![CDATA[
-		select * from tbl_board where category = 'notice' and rownum <= 5  order by bno desc
+		select * from (SELECT * from tbl_board WHERE category = 'notice' ORDER BY regdate DESC)
+		WHERE rownum <= 5
 		]]>
 	</select>
 	
@@ -238,7 +239,7 @@
 	</select>
 	
   	<select id="allBoard" resultType="BoardVO">
-		<![CDATA[
+		<![CDATA[		
 		select * from tbl_board where category != 'notice' and rownum <= 5  order by viewcnt desc
 		]]>
 	</select>

@@ -24,7 +24,14 @@
 </style>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/page_header.jsp"></jsp:include>
+
+	<c:if test="${login.position == 'admin' || login.position == 'ceo'}">
+		<jsp:include page="/WEB-INF/views/admin_page_header.jsp"></jsp:include>
+	</c:if>
+	<c:if test="${login.position == 'user'}">
+		<jsp:include page="/WEB-INF/views/page_header.jsp"></jsp:include>
+	</c:if>
+	
 	<div class="container">
 			<br>
 			<h2>

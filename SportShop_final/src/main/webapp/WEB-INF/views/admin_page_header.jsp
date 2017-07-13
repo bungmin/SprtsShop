@@ -11,7 +11,10 @@
     
     /* Remove the jumbotron's default bottom margin */ 
      .jumbotron {
-      margin-bottom: 0;
+     margin-top: auto;
+     padding-top : inherit;
+     margin-bottom: auto;
+     padding-bottom: inherit;      
     }
    
     /* Add a gray background color and some padding to the footer */
@@ -20,11 +23,20 @@
       padding: 25px;
     }
   </style>
-  
- <div class="jumbotron" style="background-image: url('../resources/img/yoshi.jpg'); background-size: inherit;">
-  <div class="container text-center">
+ 
+ 
+ <div class="jumbotron" style="background-color: white;">
+  <div class=" container text-center">
+  	<div
+  	style="background: url('../resources/img/main_image4.png') no-repeat;        
+     background-size: cover;     
+     background-position: center;
+  	    
+     height: auto; overflow: hidden; 
+     ">
     <h1>Exerciser</h1>      
     <p>Health, Enjoy&Enterprise</p>
+    </div>
   </div>
 </div>
 

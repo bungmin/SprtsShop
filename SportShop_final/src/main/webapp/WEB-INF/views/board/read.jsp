@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,7 +51,21 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/page_header.jsp"></jsp:include>
+
+	
+	<c:choose>
+		 <c:when test="${login.position == 'admin' || login.position == 'ceo'}">
+							<jsp:include page="/WEB-INF/views/admin_page_header.jsp"></jsp:include>
+		</c:when>
+			<c:when test="${login.position == 'user'}">
+							<jsp:include page="/WEB-INF/views/page_header.jsp"></jsp:include>
+		</c:when>
+		
+		</c:choose>
+		
+		
+		
+	
 	<form role="form" method="post"> <!-- action값이 없으면 사용한 페이지 그대로 돌아감 -->
 		<input value="${vo.bno}" id="bno" name="bno" type="hidden"> <!-- bno를 가져감 -->
 		<input value="${cri.page}" name="page" type="hidden">
@@ -286,7 +301,7 @@
 			
 			$(".btn-info").click(function(){
 				$form.attr("method","get");
-				$form.attr("action","/board/listCriteria");
+				$form.attr("action","/board/listCriteria?category='soccer'");
 				$form.submit();
 			});
 			

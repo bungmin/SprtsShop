@@ -166,13 +166,11 @@ footer {
 
 			<div class="col-sm-7">
 			
-				<div style="position: relative; left: 100px;" class="row">
-
+				<div class="row">
 					<div>
-						<img class="mySlides" src="/resources/img/soccer.jpg">
-						<img class="mySlides" src="/resources/img/baseball.jpg"> 
-						<img class="mySlides" src="/resources/img/basketball.jpg">
-						
+						<img class="mySlides img-responsive" style="width: 100%;" src="/resources/img/soccer.jpg">
+						<img class="mySlides img-responsive" style="width: 100%;" src="/resources/img/baseball.jpg"> 
+						<img class="mySlides img-responsive" style="width: 100%;" src="/resources/img/basketball.jpg">						
 					</div>
 
 				</div>
@@ -251,7 +249,7 @@ footer {
 	
 	<script id="source" type="text/x-handlebars-template">			
 			{{#each.}}				
-					<li><img src="/displayFile?fileName={{p_img_1}}" class="img-responsive" style="width: 100%">
+					<li><a href="userProductList/productDetail?pno={{pno}}"><img src="/displayFile?fileName={{p_img_1}}" class="img-responsive" style="width: 100%"></a>
 						<p style="color: red;">{{p_title}}</p>
 						<p >{{p_price}} 원</p>
 						
@@ -620,6 +618,8 @@ footer {
 		function removeHTML(text){
 			text = text.replace(/<br\/>/ig, "\n"); 
 			text = text.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+			text = text.replace(/&nbsp;/gi,'');
+			
 
 			return text;
 			

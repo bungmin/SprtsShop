@@ -105,7 +105,7 @@
 						<td>{{id}}</td>
 						<td>{{a_title}}</td>
 						<td>{{a_img_link}}</td>
-						<td><img src="/displayFile?fileName={{a_img_name}}"></td>
+						<td><img class="img-responsive" style="width: 100%" src="/displayFile?fileName={{a_img_name}}"></td>
 						<th>{{readcnt}}</th>
 						<td>{{register}}</td>
 						<td><button data-ano="{{ano}}" class="btn btn-warning registerBtn">DB 홈페이지에 게시</button></td>
