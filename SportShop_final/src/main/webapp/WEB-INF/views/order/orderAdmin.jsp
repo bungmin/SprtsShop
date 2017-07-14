@@ -35,6 +35,7 @@ $(document).ready(function (){
 				<thead>
 					<tr class="info">
 						<th>#</th>
+						<th>ID</th>
 						<th>상품카테고리</th>						
 						<th>상품타이틀</th>
 						<th>상품사이즈</th>
@@ -53,6 +54,7 @@ $(document).ready(function (){
 				 	<c:forEach items="${list}" var="c">
 						<tr>
 							<td>${c.ono}</td>
+							<td>${c.id}	</td>
 							<td>${c.o_category}</td>
 							<td>${c.o_title}</td>
 							<td>${c.o_size}</td>
