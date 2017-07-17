@@ -33,6 +33,8 @@ public interface UserManageDAO {
 		
 	public abstract List<UserVO> memberToday() throws Exception;
 	
+	public abstract List<String> state() throws Exception;
+	
 	
 	/*public abstract List<UserVO> getlistAnalysis() throws Exception;*/
 

@@ -102,4 +102,19 @@ public class UserManageRestController {
 		
 		return list;
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/state", method=RequestMethod.GET)
+	public List<String> state() throws Exception{
+		
+		List<String> list =service.state();
+		System.out.println(list);
+		//List<StateVO> list=service.analysisState();
+		
+		return list;
+	}
+	
+	
+	
 }

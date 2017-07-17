@@ -90,4 +90,11 @@ public class UserManageController {
 		
 		model.addAttribute("visitlog", visitlog);*/
 	}
+	
+	@RequestMapping(value="/mapTest" , method=RequestMethod.GET)
+	public void mapTest() throws Exception{
+		/*List<VisitVO> visitlog = service.visitLog();
+		
+		model.addAttribute("visitlog", visitlog);*/
+	}
 }

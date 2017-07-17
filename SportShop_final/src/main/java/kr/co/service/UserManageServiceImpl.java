@@ -111,6 +111,13 @@ public class UserManageServiceImpl implements UserManageService {
 		return dao.memberToday();
 	}
 
+
+	@Override
+	public List<String> state() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.state();
+	}
+
 	/*@Override
 	public List<UserVO> genderAnalysis(UserVO vo) throws Exception {
 		// TODO Auto-generated method stub

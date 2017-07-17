@@ -1,6 +1,8 @@
 package kr.co.service;
 
 
+import java.util.List;
+
 import kr.co.domain.LoginDTO;
 import kr.co.domain.UserInfoVO;
 import kr.co.domain.UserVO;
@@ -25,5 +27,7 @@ public interface UserService {
 	public abstract void addMileage(UserInfoVO vo) throws Exception;
 	public abstract void minusCash(UserInfoVO vo) throws Exception;
 	public abstract void minusMileage(UserInfoVO vo) throws Exception;
+	
+
 	
 }

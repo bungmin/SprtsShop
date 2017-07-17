@@ -30,6 +30,8 @@ public interface UserManageService {
 	
 	public abstract List<UserVO> memberToday() throws Exception;
 	
+	public abstract List<String> state() throws Exception;
+	
 	
 	/*public abstract List<UserVO> genderAnalysis(UserVO vo) throws Exception;*/
 

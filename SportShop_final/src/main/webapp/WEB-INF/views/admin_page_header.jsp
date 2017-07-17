@@ -128,6 +128,7 @@
 						<li><a href="/usermanage/manalysis">회원 목록 통계</a></li>
 						<li><a href="/usermanage/visitlog_D">방문자수 통계</a></li>
 						<li><a href="/usermanage/analysisBoard">게시글 통계</a></li>
+						<li><a href="/usermanage/mapTest">맵테스트</a></li>
 					</ul></li>
 			
 					

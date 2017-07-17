@@ -84,6 +84,12 @@ public class UserManageDAOImpl implements UserManageDAO{
 		return session.selectList(NAMESPACE+".memberToday");
 	}
 
+	@Override
+	public List<String> state() throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList(NAMESPACE+".state");
+	}
+
 	/*@Override
 	public List<UserVO> getlistAnalysis() throws Exception {
 		// TODO Auto-generated method stub

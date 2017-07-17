@@ -76,6 +76,10 @@ from (select count(*) lt10 from (select (curyear-birthday) +1 as 한국나이, i
 <delete id="deletById">
   	delete from tbl_product_review where id=#{id}  
   </delete>
+  
+  <select id="state" resultType="String">
+  	select state from tbl_user
+  </select>
 
 
   

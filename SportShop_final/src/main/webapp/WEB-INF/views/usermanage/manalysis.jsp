@@ -14,14 +14,8 @@
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
 <script src="//www.amcharts.com/lib/3/plugins/dataloader/dataloader.min.js"></script>
-
-
-
-
-
-
-
-
+<!-- <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBcHku8BnZHqQuX4MTmsZgc1AXjRKX-t5s"></script> -->
+<!-- <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script> -->
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/admin_page_header.jsp"></jsp:include>
@@ -37,6 +31,17 @@
   top: 10px;
   right: 0;
 }
+
+ #panel {
+                           position: absolute;
+                           top: 5px;
+                           left: 50%;
+                           margin-left: -180px;
+                           z-index: 5;
+                           background-color: #fff;
+                           padding: 5px;
+                           border: 1px solid #999;
+                  }
 
 </style>
 
@@ -60,8 +65,16 @@
 		</h3>
 		<button id="gender" class="label label-success">회원성비분석</button>
 		<button id="age" class="label label-success">회원나이분석</button>		
-		<button id="state" class="label label-success">회원지역분석</button>		
+		<button id="state" class="label label-success">회원지역분석</button>
 		
+	<!-- 	========맵 canvas==============
+		 <div id="panel">
+  	  <input id="address" type="textbox" value="Seoul"> 
+	 <input type="button" value="GO" onclick="codeAddress()">
+  		</div>
+		<div id="googleMap" style="width:500px;height:380px;"></div>	
+		========맵 canvas==============
+		 -->
 		<div id="chartdiv"></div>
 		
 		
@@ -137,6 +150,7 @@
 		$(document).ready(function() {
 			var strArray;
 			
+		
 			
 			  var position ='${login.position}';
 			  
@@ -348,6 +362,87 @@
 						}
 					});
 		});
+		
+		
+		/* var geocoder;
+		
+		var heatmap;
+		   var heatMapData = [];
+		           
+		   function geocode(addressList) {
+		     var addressList = new Array('서울','서울','서울','서울','서울','서울',
+		'서울','서울','대구','광주','부산','포항','강릉','전주','광양','거제','김해',
+		'대전','울산','마산','수원','인천','서울','대구','광주','부산','포항','강릉',
+		'전주','서울','서울','서울','광양','거제','김해','대전','울산','마산',
+		'서울','서울','수원','인천','군산','파주','서울','서울');
+		           for ( var j in addressList) {
+		                   codeAddress(addressList[j]);
+		           }
+		           heatmap = new google.maps.visualization.HeatmapLayer({
+		                   data : heatMapData,
+		                   radius : 40,
+		                   dissipating : true
+		           });
+		           heatmap.setMap(map);
+		  }
+		   
+		   
+		    function codeAddress(address) {
+			            geocoder = new google.maps.Geocoder();
+			            geocoder.geocode({'address' : address}, function
+			 (results, status) {
+			                    if (status == google.maps.GeocoderStatus.OK) {
+			                            var lat = results[0]['geometry']
+			 ['location']['lat']();
+			                            var lng = results[0]['geometry']
+			 ['location']['lng']();
+			                            map.setCenter(results[0].geometry.
+			 location);
+			                            var marker = new google.maps.Marker({
+			                                    map : map,
+			                                    position : results[0].geometry.location,
+			                                    draggable : false,
+			                                    animation : google.maps.Animation.DROP,
+			                                    title : address
+			                            });
+			                            var weightedLoc = {
+			                                    location : new google.maps.LatLng(lat, lng),
+			                                    weight : 2 * 가중치(숫자)
+			                            };
+			                            heatMapData.push(weightedLoc);
+			                   } else {
+			                            alert('Geocode was not successful for the following reason: '+ status);
+			                    }
+			            });
+			    } */
+			   	
+		
+		
+		/* function codeAddress() {
+		     geocoder = new google.maps.Geocoder();
+		     var address = document.getElementById('address').value;
+		     geocoder.geocode( { 'address': address}, function(results, 
+		status) {
+		           if (status == google.maps.GeocoderStatus.OK) {
+		                   var lat = results[0]['geometry']['location']
+		['lat']();
+		                   var lng = results[0]['geometry']['location']
+		['lng']();
+		                   alert(address+"의 위도는 " + lat + " 이며, 경도는" + lng + " 입니다.");
+		                   map.setCenter(results[0].geometry.location);    
+		                   var marker = new google.maps.Marker({
+		                           map: map,
+		                           position: results[0].geometry.location,
+		                           draggable:false,
+		                           animation:google.maps.Animation.DROP,
+		                           title:address
+		                   });
+		           } else {
+		             alert('Geocode was not successful for the following reason: ' + status);
+		           }
+		     });
+		  } */
+	
 	</script>
 	
 <jsp:include page="/WEB-INF/views/page_footer.jsp"></jsp:include>
