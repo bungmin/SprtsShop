@@ -38,6 +38,15 @@ html, body {
 			
 		});
 		
+		map.addMarker({
+	        lat: -12.042,
+	        lng: -77.028333,
+	        title: 'Marker with InfoWindow',
+	        infoWindow: {
+	          content: '<p>HTML Content</p>'
+	        }
+	      });
+		
 		/* var styles = [
             {
               stylers: [
