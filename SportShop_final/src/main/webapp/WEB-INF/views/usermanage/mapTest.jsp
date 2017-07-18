@@ -3,247 +3,138 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <jsp:include page="../header.jsp"></jsp:include>
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBcHku8BnZHqQuX4MTmsZgc1AXjRKX-t5s&v=3.exp&libraries=visualization"></script>
-<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 <title>Insert title here</title>
- 
-
-<script>
-$(document).ready(function(){
-	geocode();
-	
-});
- var heatmap;
- var heatMapData = [];
-var map;
-
-
-function initialize() {
-  var mapProp = {
-    center:new google.maps.LatLng(37.250943, 127.028344),
-    zoom:5,
-    mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-  map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-
-var geocoder;
-
-var markerCluster;
-var markers = new Array();
-
-
-
-		function geocode(addressList) {
-			
-			$.getJSON("/memberLog/state", function(data) {		
-				addressList = data;
-				
-				for(var j in data){
-				
-					codeAddress(addressList[j]);
-			   }
-			}); 
-			
-			
-	      /* var addressList = new Array('서울','서울','서울','서울','서울','서울',
-	'서울','서울','대구','광주','부산','포항','강릉','전주','광양','거제','김해',
-	'대전','울산','마산','수원','인천','서울','대구','광주','부산','포항','강릉',
-	'전주','서울','서울','서울','광양','거제','김해','대전','울산','마산',
-	'서울','서울','수원','인천','군산','파주','서울','서울');
-	            for ( var j in addressList) {
-	                    codeAddress(addressList[j]);
-	            } */
-	       /*      heatmap = new google.maps.visualization.HeatmapLayer({
-	                  data : heatMapData,
-	                   radius : 40,
-	                   dissipating : true
-	           });
-	           heatmap.setMap(map);
-	           
- 	          var clusterOptions = {
-	        		                 gridSize: 30,
-	        		                   minimumClusterSize: 2
-	        		           };
-	        		           markerCluster = new MarkerClusterer(map, markers, 
-	        		 clusterOptions);  */
-	      
-	   }
-	  
-
- 
- 	//function geocode() {
-	 
-	 /* var addressList;
-		 $.getJSON("/memberLog/state", function(data) {		
-			addressList = data;
-			
-			for(var j in data){
-			
-	            codeAddress(data[j]);
-		   }
-		}); */
-		
-		 
-		
-		/* for(var j in addressList){
-			alert(addressList[j]);
-            codeAddress(addressList[j]);
-	   } */
-	/*    var addressList = new Array( '서울', '대구','광주','부산','포항','강릉','전주','광양','거제','김해','대전','울산','마산','수원','인천','군산','파주');
-	   for(var j in addressList){
-		    
-            codeAddress(addressList[j]);
-	   }   */
-//}
- 
- 
- function codeAddress(address) {
-	   geocoder = new google.maps.Geocoder();	   
-	   /* alert(address); */	   
-	   geocoder.geocode( { 'address': address}, function(results,status) {
-		   	if (status == google.maps.GeocoderStatus.OK) {
-	                 var lat = results[0]['geometry']['location']['lat']();
-	                 var lng = results[0]['geometry']['location']['lng']();
-	                 //alert(address+"의 위도는 " + lat + " 이며, 경도는" + lng + " 입니다.");
-	                 //map.setCenter(results[0].geometry.location);
-	      
-	                 var marker = new google.maps.Marker({   
-	                	 	map: map,                 
-	                         position: results[0].geometry.location,
-	                         draggable:false,
-	                         animation:google.maps.Animation.DROP,
-	                         title:address
-	                 });
-	                 
-	                 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	                 var markers = results.map(function() {
-	                     return new google.maps.Marker({
-	                       position: results[0].geometry.location,
-	                       label: "count"
-	                     });
-	                   });
-
-	                   // Add a marker clusterer to manage the markers.
-	                   var markerCluster = new MarkerClusterer(map, markers,
-	                       {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-	                 markers.push(marker);
-	                 
-	                 /* var weightedLoc = {
-	                		         location : new google.maps.LatLng(lat, lng),
-	                		  		 weight : 2 * 100
-	                		};
-	              	heatMapData.push(weightedLoc); */
-	                
-	         }else if(status ==  google.maps.GeocoderStatus.OVER_QUERY_LIMIT){
-			   		 setTimeout(function(){			   			 
-			   			codeAddress(address);
-			   		},200); 
-			   		
-			   	} else {
-	           alert('Geocode was not successful for the following reason: ' + status);
-	         }
-	   });
-	 }
- 
-
- 
- /*  function codeAddress() {
- geocoder = new google.maps.Geocoder();
- var address = document.getElementById('address').value;
- geocoder.geocode( { 'address': address}, function(results,status) {
-       if (status == google.maps.GeocoderStatus.OK) {
-               var lat = results[0]['geometry']['location']['lat']();
-               var lng = results[0]['geometry']['location']['lng']();
-               alert(address+"의 위도는 " + lat + " 이며, 경도는" + lng + " 입니다.");
-               map.setCenter(results[0].geometry.location);    
-               var marker = new google.maps.Marker({   
-              	 	map: map,                 
-                       position: results[0].geometry.location,
-                       draggable:false,
-                       animation:google.maps.Animation.DROP,
-                       title:address
-               });
-       } else {
-         alert('Geocode was not successful for the following reason: ' + status);
-       }
- });
-}  */
-
-
-
-
-
-
-
-
-
- 
-/*  var heatmap;
-  var heatMapData = [];
-          
-  function geocode(addressList) {
-    var addressList = new Array('서울','서울','서울','서울','서울','서울',
- '서울','서울','대구','광주','부산','포항','강릉','전주','광양','거제','김해',
- '대전','울산','마산','수원','인천','서울','대구','광주','부산','포항','강릉',
- '전주','서울','서울','서울','광양','거제','김해','대전','울산','마산',
- '서울','서울','수원','인천','군산','파주','서울','서울');
-         for ( var j in addressList) {
-                  codeAddress(addressList[j]);
-          }
-          heatmap = new google.maps.visualization.HeatmapLayer({
-                  data : heatMapData,
-                  radius : 40,
-                  dissipating : true
-          });
-          heatmap.setMap(map);
-  }
- 
- function codeAddress(address) {
-	           geocoder = new google.maps.Geocoder();
-	          geocoder.geocode({'address' : address}, function(results, status) {
-	                   if (status == google.maps.GeocoderStatus.OK) {
-	                           var lat = results[0]['geometry']['location']['lat']();
-	                           var lng = results[0]['geometry']['location']['lng']();
-	                           map.setCenter(results[0].geometry.location);
-	                           var marker = new google.maps.Marker({
-	                                   map : map,
-	                                   position : results[0].geometry.location,
-	                                   draggable : false,
-	                                   animation : google.maps.Animation.DROP,
-	                                   title : address
-	                           });
-	                           var weightedLoc = {
-	                                   location : new google.maps.LatLng(lat, lng),
-	                                   weight : 2 * 3
-	                           };
-	                           heatMapData.push(weightedLoc);
-	                   } else {
-	                           alert('Geocode was not successful for the following reason: '+ status);
-	                   }
-	           });
-	   } */
- 
-  
- 
-
-</script>
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+<script src="//www.amcharts.com/lib/3/plugins/dataloader/dataloader.min.js"></script>
+<!-- <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBcHku8BnZHqQuX4MTmsZgc1AXjRKX-t5s"></script> -->
+<!-- <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script> -->
 </head>
-
 <body>
-	<jsp:include page="/WEB-INF/views/admin_page_header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/admin_page_header.jsp"></jsp:include>
+<style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    
+</style>			<div id="map"></div>
+    <script type="text/javascript">
+    var locations = [
+        {lat: -31.563910, lng: 147.154312}   
+      ] 
+    
+    
+    var lat3=11;   
+    $(document).ready(function(){    	
+    	$.getJSON("/memberLog/state", function(data) {		
+    		for(var j in data){
+    			geocoder = new google.maps.Geocoder();
+    	         geocoder.geocode({'address' : data[j]}, function(results, status) {
+    	                 if (status == google.maps.GeocoderStatus.OK) {
+    	              	   var lat = results[0]['geometry']['location']['lat']();
+    	                     var lng = results[0]['geometry']['location']['lng']();                  
+    	             
+    	                     lat3= results[0].geometry.location;
+    	                     
+    	                     lat_lng = new Object();
+    	                     
+    	                     lat_lng.lat= lat;
+    	                     lat_lng.lng= lng;    	                      
+    	                   
+    	                     locations.push(lat_lng);
+    	                     alert(locations);
+    	                     
+    	                   
+    	                     
+    	                 }    	                       
+    	         });                 
+    			
+    		}	
+    		
+    		 /*  // Create an array of alphabetical characters used to label the markers.
+            var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-	<div id="googleMap" style="width: 500px; height: 380px;"></div>
+            // Add some markers to the map.
+            // Note: The code uses the JavaScript Array.prototype.map() method to
+            // create an array of markers based on a given "locations" array.
+            // The map() method here has nothing to do with the Google Maps API.
+            var markers = locations.map(function(location, i) {
+              return new google.maps.Marker({
+                position: location,
+                label: labels[i % labels.length]
+              });
+            });
 
-	<div id="panel">
-		<input id="address" type="textbox" value="Seoul"> 
-		<!-- <input type="button" value="GO" onclick="codeAddress()"> -->
+            // Add a marker clusterer to manage the markers.
+            var markerCluster = new MarkerClusterer(map, markers,
+                {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+          */
+            
+    	
+    		
+		});
+    	
+    	
+    	
+    });
+    
+    
+    function codeAddress(address) {
+    	
+		  geocoder = new google.maps.Geocoder();
+         geocoder.geocode({'address' : address}, function(results, status) {
+                 if (status == google.maps.GeocoderStatus.OK) {
+              	   var lat = results[0]['geometry']['location']['lat']();
+                     var lng = results[0]['geometry']['location']['lng']();                  
+             
+                     lat3= results[0].geometry.location;            	                       
+                     alert(lat3);
+                 }    	                       
+         });
+      
+        }
+	 
+    
+   
+    
+    
 
-		<jsp:include page="/WEB-INF/views/page_footer.jsp"></jsp:include>
+
+      function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 3,
+          center: {lat: -28.024, lng: 140.887}
+        });
+      }
+
+      
+      
+      
+      
+    </script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLv-_ILIbQvAd6g7TtrfNASnEd9rOOD6M&callback=initMap">
+    </script>
+	
+	
+<jsp:include page="/WEB-INF/views/page_footer.jsp"></jsp:include>
 </body>
-
 </html>

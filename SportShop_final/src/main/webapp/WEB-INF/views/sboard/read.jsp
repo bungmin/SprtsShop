@@ -551,7 +551,8 @@
 				
 				
 				$(result).each(function() {					
-					var fileInfo = getFileInfo(this);
+					var fileInfo = getFileInfo(this);					
+				
 					var ht =template(fileInfo);
 					
 					$(".uploadedList").append(ht);					
