@@ -19,9 +19,9 @@
 }
 /* Optional: Makes the sample page fill the window. */
 html, body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
+ height: 100%;
+    margin: 0px;
+    padding: 0px
 }
 </style>
 <script type="text/javascript">
@@ -29,7 +29,7 @@ html, body {
 	$(document).ready(function() {
 		map = new GMaps({
 			el : '#map',
-			zoom : 6,
+			zoom : 7,
 			lat: 37.566535,
 			lng: 126.97796,
 			markerClusterer: function(map) {
@@ -37,6 +37,36 @@ html, body {
 		        }
 			
 		});
+		
+		var styles = [
+            {
+              stylers: [
+                { hue: "#00ffe6" },
+                { saturation: -20 }
+              ]
+            }, {
+                featureType: "road",
+                elementType: "geometry",
+                stylers: [
+                    { lightness: 100 },
+                    { visibility: "simplified" }
+              ]
+            }, {
+                featureType: "road",
+                elementType: "labels",
+                stylers: [
+                    { visibility: "off" }
+              ]
+            }
+        ];
+        
+        map.addStyle({
+            styledMapName:"Styled Map",
+            styles: styles,
+            mapTypeId: "map_style"  
+        });
+        
+        map.setStyle("map_style");
 		
 		
 		var List = new Array();		        
@@ -47,7 +77,10 @@ html, body {
 				{							
 					geocode(data[j]);							
 				}		
-			});
+			});			
+			$("#search").remove();	
+			$("#caculation").html("계산 중");				
+		
 		});
 	
 	});
@@ -70,12 +103,16 @@ html, body {
 					 setTimeout(function() {
 						 geocode(address);
 			       }, 200);
-				
+					
 				} else {
 			     alert('Geocode was not successful for the following reason: '+ status);
 				}
+				
+			
 			}
-		});		
+		});	
+		
+	
 	}
 </script>
 
@@ -88,7 +125,9 @@ html, body {
 		<div class="span11">
 				<div class="input">				 
 					<button id ="search"  type="submit" class="btn btn-info">마커 표시</button>
-				</div>			
+				</div>										 
+				<h1 id="caculation" style="color: red;"></h1>
+							
 		</div> 
 		
 		<div id="map"></div>
