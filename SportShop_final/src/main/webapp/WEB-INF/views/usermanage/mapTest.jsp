@@ -38,116 +38,57 @@ html, body {
 			
 		});
 		
-		map.addMarker({
-	        lat: -12.042,
-	        lng: -77.028333,
-	        title: 'Marker with InfoWindow',
-	        infoWindow: {
-	          content: '<p>HTML Content</p>'
-	        }
-	      });
 		
-		/* var styles = [
-            {
-              stylers: [
-                { hue: "#00ffe6" },
-                { saturation: -20 }
-              ]
-            }, {
-                featureType: "road",
-                elementType: "geometry",
-                stylers: [
-                    { lightness: 100 },
-                    { visibility: "simplified" }
-              ]
-            }, {
-                featureType: "road",
-                elementType: "labels",
-                stylers: [
-                    { visibility: "off" }
-              ]
-            }
-        ];
-        
-        map.addStyle({
-            styledMapName:"Styled Map",
-            styles: styles,
-            mapTypeId: "map_style"  
-        });
-        
-        map.setStyle("map_style"); */
-        
+		var List = new Array();		        
 		
 		$("#search").click(function (){		
-			//$.getJSON("/memberLog/state", function(data) {
-			//	for(var j in data)
-			//	{			
-					GMaps.geocode({
-					//	address : data[j],
-						address : $('#address').val(),
-						callback : function(results, status) {
-							if (status == 'OK') {
-								
-								var latlng = results[0].geometry.location;								
-								map.setCenter(latlng.lat(), latlng.lng());
-								map.addMarker({
-									lat : latlng.lat(),
-									lng : latlng.lng(),
-								
-								});							
-							}/* else if (status == 'OVER_QUERY_LIMIT') {    
-								setTimeout(function() {
-									var latlng = results[0].geometry.location;								
-									map.setCenter(latlng.lat(), latlng.lng());
-									map.addMarker({
-										lat : latlng.lat(),
-										lng : latlng.lng(),
-									});									
-								}, 200);
-							}  */
-						}
-					});
-					
-				//}
-				
-				
-			//});
-			
-			/* GMaps.geocode({
-				address : $('#address').val().trim(),
-				callback : function(results, status) {
-					if (status == 'OK') {
-						var latlng = results[0].geometry.location;
-						map.setCenter(latlng.lat(), latlng.lng());
-						map.addMarker({
-							lat : latlng.lat(),
-							lng : latlng.lng()							
-						});
-					
-					}
-				}
+			$.getJSON("/memberLog/state", function(data) {
+				for(var j in data)
+				{							
+					geocode(data[j]);							
+				}		
 			});
-	 */		
 		});
 	
 	});
+	
+	
+	function geocode(address){
+		GMaps.geocode({
+			address : address,
+		//	address : $('#address').val(),
+			callback : function(results, status) {
+				if (status == 'OK') {								
+					var latlng = results[0].geometry.location;								
+					//List.push(latlng);
+					 map.setCenter(latlng.lat(), latlng.lng());
+					 map.addMarker({
+						lat : latlng.lat(),
+						lng : latlng.lng(),								
+					});					
+				} else if (status == 'OVER_QUERY_LIMIT') {					
+					 setTimeout(function() {
+						 geocode(address);
+			       }, 200);
+				
+				} else {
+			     alert('Geocode was not successful for the following reason: '+ status);
+				}
+			}
+		});		
+	}
 </script>
 
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/admin_page_header.jsp"></jsp:include>
 
-	<h1>GMaps.js &mdash; Geocoding</h1>
+	<h1>지도상의 회원 별 위치</h1>
 
 		<div class="span11">
-			
-				<label for="address">Address:</label>
-				<div class="input">
-					<input type="text" id="address" name="address" /> 
-					<input id ="search"  type="submit" class="btn" value="Search" />
-				</div>
-			
-			
+				<div class="input">				 
+					<button id ="search"  type="submit" class="btn btn-info">마커 표시</button>
+				</div>			
 		</div> 
 		
 		<div id="map"></div>
