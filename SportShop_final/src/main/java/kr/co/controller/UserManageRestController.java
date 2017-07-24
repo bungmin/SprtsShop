@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +26,8 @@ public class UserManageRestController {
 	
 	@Inject
 	UserManageService service;
+	
+	
 	
 	@ResponseBody
 	@RequestMapping(value="/day", method=RequestMethod.GET)
@@ -115,6 +118,54 @@ public class UserManageRestController {
 		return list;
 	}
 	
+	
+	@RequestMapping(value="/deleteId/{id}", method=RequestMethod.DELETE, produces = "application/text; charset=utf8")
+	public ResponseEntity<String> deleteAds(@PathVariable("id") String id){
+		ResponseEntity<String> entity = null;
+		
+		try {
+			
+			service.delete(id);
+			//service.deleteAds(ano);
+			
+			//service.registerAds(ano);
+			//service.delete(ano);
+			entity = new ResponseEntity<String>("DELETE_SUCCESS", HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/usercheck", method=RequestMethod.GET)
+	public List<UserVO> usercheck() throws Exception{
+		List<UserVO> listUser = service.userList();
+		
+		System.out.println("----------------------------------------");
+		System.out.println(listUser);
+		System.out.println("----------------------------------------");
+		return listUser;		
+		//model.addAttribute("listUser", listUser);
+		
+	}
+	
+/*	@ResponseBody
+	@RequestMapping(value="/state", method=RequestMethod.GET)
+	public List<String> state() throws Exception{
+		
+		List<String> list =service.state();
+		System.out.println(list);
+		//List<StateVO> list=service.analysisState();
+		
+		return list;
+	}
+	*/
 	
 	
 }

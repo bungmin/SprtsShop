@@ -8,7 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <!-- <script type="text/javascript" src="https://rawgit.com/googlemaps/js-marker-clusterer/gh-pages/src/markerclusterer.js"></script> -->
 
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBLv-_ILIbQvAd6g7TtrfNASnEd9rOOD6M"></script>
+<script type="text/javascript" 
+src="http://maps.google.com/maps/api/js?key=AIzaSyBLv-_ILIbQvAd6g7TtrfNASnEd9rOOD6M"></script>
 <!-- <script
 	src="http://maps.google.com/maps/api/js?key=AIzaSyBLv-_ILIbQvAd6g7TtrfNASnEd9rOOD6M&v=3&sensor=false"></script> -->
 <jsp:include page="../header.jsp"></jsp:include>
