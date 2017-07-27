@@ -47,6 +47,18 @@
 		
 		
 		
+		
+		 $(".cart").click(function(){
+			
+			data_pno = $(this).text();
+			
+			alert(data_pno);
+			
+			
+		});
+		
+		
+		
 		$("#searchBtn").click(function () {
 		
 			var uri = "listSearchCriteria${pageMaker.makeQuery(1)}&category=${pageMaker.cri.category}&orderType=${pageMaker.cri.orderType}"+"&searchType="+$("select#ssel option:selected").val()+"&keyword="+$("#keyword").val();
@@ -161,7 +173,9 @@
 					</div>
 					<div>		
 						<a href="#">상품가격 : ${pList.p_price}</a>						
-					</div>
+					</div>			
+					
+				 	
 				</li>
 				
 				</c:forEach>

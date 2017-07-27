@@ -33,6 +33,7 @@ $(document).ready(function(){
 	  $("#selectedId").click(function(){
 		  
 		  alert("선택 삭제 되었습니다.");		  
+		  
 		  $(".checked:checked").each(function(){			 
 			  var ea = $(this).val();			  
 			$.ajax({
