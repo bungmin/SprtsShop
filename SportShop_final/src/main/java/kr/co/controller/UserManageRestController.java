@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.domain.AgeGraphVO;
 import kr.co.domain.BoardVO;
+import kr.co.domain.ReplyVO;
 import kr.co.domain.StateVO;
+import kr.co.domain.UserInfoVO;
 import kr.co.domain.UserVO;
 import kr.co.domain.VisitVO;
 import kr.co.service.UserManageService;
+import kr.co.service.UserService;
 
 @RestController
 @RequestMapping("/memberLog")
@@ -26,6 +30,9 @@ public class UserManageRestController {
 	
 	@Inject
 	UserManageService service;
+	
+	@Inject
+	private UserService service2;
 	
 	
 	
@@ -154,6 +161,38 @@ public class UserManageRestController {
 		//model.addAttribute("listUser", listUser);
 		
 	}
+	
+	
+	/*@RequestMapping(value="/{rno}", method={RequestMethod.PUT, RequestMethod.PATCH})
+	public ResponseEntity<String> update(@PathVariable("rno") Integer rno, @RequestBody ReplyVO vo){*/ 
+	
+	@ResponseBody
+	@RequestMapping(value="/userinfo/{id}")
+	public ResponseEntity<UserInfoVO> getUserInfo(@PathVariable("id") String id){
+		
+		
+		System.out.println("++++++**********+++++++++");
+		System.out.println(id);
+		ResponseEntity<UserInfoVO> entity = null;	
+		System.out.println("(((((((((((((");
+		try {
+			//List<CartTestVO> list=service.CartView(id);
+			
+			UserInfoVO vo=service2.userInfo(id);
+			
+			entity= new ResponseEntity<UserInfoVO>(vo, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity= new ResponseEntity<UserInfoVO>(HttpStatus.BAD_REQUEST);
+		}
+		
+		System.out.println("+++++++++");
+		System.out.println(entity);
+		
+		return entity;
+		
+	}	
 	
 /*	@ResponseBody
 	@RequestMapping(value="/state", method=RequestMethod.GET)

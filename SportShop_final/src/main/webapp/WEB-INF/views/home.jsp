@@ -626,13 +626,15 @@ footer {
 		}
 		
 		function getUserInfo(id) {
-			
-			$.getJSON("/user/userinfo/"+id, function(data) {
+		
+			$.getJSON("/memberLog/userinfo/"+id, function(data) {
 				
 				
 				var source = $("#UserInfosource").html();
 				var template =Handlebars.compile(source);
 				var gab=data;	
+				
+			
 				
 				$(".userInfo").html(template(gab));
 				

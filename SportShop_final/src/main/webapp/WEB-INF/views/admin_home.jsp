@@ -382,7 +382,7 @@ footer {
 			
 			
 			var id = '${login.id}';
-			
+		
 			getUserInfo(id);
 			
 			$("#cash").click(function(){
@@ -665,19 +665,41 @@ footer {
 		
 		
 function getUserInfo(id) {
+	
+	$.ajax({
+		url: "/memberLog/userinfo/"+id,
+		type : "GET",
+		success: function(data) {
 			
-			$.getJSON("/user/userinfo/"+id, function(data) {
-				
-				
-				var source = $("#UserInfosource").html();
-				var template =Handlebars.compile(source);
-				var gab=data;	
-				
-				$(".userInfo").html(template(gab));
-				
-				
-			});
+			var source = $("#UserInfosource").html();
+			var template =Handlebars.compile(source);
+			var gab=data;
 			
+
+			$(".userInfo").html(template(gab));
+
+						
+		}
+		
+		
+	});
+	
+			
+	
+	/* 
+		
+	$.getJSON("/memberLog/userinfo/"+id, function(data) {
+		var source = $("#UserInfosource").html();
+		var template =Handlebars.compile(source);
+		var gab=data;
+		
+
+		$(".userInfo").html(template(gab));
+
+		
+	});
+	 */
+				
 		}
 		
 		

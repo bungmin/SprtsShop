@@ -266,7 +266,7 @@ public class UserController {
 		System.out.println("++++++**********+++++++++");
 		System.out.println(id);
 		ResponseEntity<UserInfoVO> entity = null;	
-		
+		System.out.println("(((((((((((((");
 		try {
 			//List<CartTestVO> list=service.CartView(id);
 			
